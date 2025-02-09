@@ -1,24 +1,26 @@
 from flask import render_template, jsonify, request
 from app import app
-from src.functions import getResult, formatedResult
+from src.structureDspy import ModuloClassificador, formatedResult
+
+dspy_instance = ModuloClassificador().activate_assertions()
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/api/v1/classificador/classificar/')
+@app.route('/api/v1/classificador/classificar/', methods=['POST'])
 def classificar():
     data = request.get_json()
     texto_questao = data.get("texto")
-
-    rationale, resultado, dica = formatedResult(texto_questao)
+    pred = dspy_instance(texto_questao=texto_questao)
+    rationale, resultado, dica = formatedResult(pred)
 
     return jsonify({
         "resultado": resultado,
         "rationale": rationale,
         "dica": dica
     })
-
+#exs
 # pascal
 '''Qual a probabilidade de que no 25º lançamento de um 
     dado ocorra a face 4 pela 5º vez?'''

@@ -13,6 +13,7 @@ from dspy import (
 from dotenv import load_dotenv
 import os
 from typing import Literal
+import dspy
 
 load_dotenv()
 
@@ -74,24 +75,32 @@ class ClassificarNPSignature(Signature):
                                  'Distribuição normal', 'Distribuição exponencial', 'Distribuição uniforme', 'Distribuição gama']  = OutputField(prefix='Destribuição Final:')
 
     dica : str = OutputField(prefix='Dica:')
-import dspy
-
+rationale = ''
 class ModuloClassificador(dspy.Module):
     def __init__(self):
         super().__init__()
+        self.i=0
         self.cot_module = dspy.ChainOfThought(ClassificarNPSignature, OutputField(prefix="Raciocínio: Vamos pensar passo a passo em ordem para resolver a questão"))
     
     def forward(self, texto_questao):
         pred = self.cot_module(texto_questao=texto_questao)
+        if self.i ==0:
+            rationale = pred.rationale
+            self.i = -1
+        
         print(pred)
 
         dspy.Suggest(
-            pred.distribuicao_principal in ['Distribuição de Pascal', 'Distribuição geométrica'],
-            "{'distribuicao_principal'} deve ser um dos valores a seguir:['Distribuição de Pascal', 'Distribuição geométrica', 'Distribuição de Bernoulli'] e não pode ser maior que 31 caracteres!",
+            pred.distribuicao_principal in ['Distribuição de Pascal', 'Distribuição geométrica', 'Distribuição de Bernoulli'],
+            "{'distribuicao_principal'} deve ser um dos valores a seguir:['Distribuição de Pascal', 'Distribuição geométrica', 'Distribuição de Bernoulli'] e não pode ser maior que 31 caracteres!, nenhum dos campos não pode ser vazio.",
             target_module=self.cot_module
         )
 
         return pred
+
+def formatedResult(pred):
+    """returns : rationale, distribuição principal, dica"""
+    return rationale, pred.distribuicao_principal, pred.dica
 
 #pred = test(texto_questao=q5)
 #print(pred)

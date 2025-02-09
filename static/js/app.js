@@ -13,7 +13,6 @@ async function classificarTexto() {
         }
         const data = await response.json();
         document.getElementById('resultado').textContent = `Resultado: ${data.resultado}`;
-        document.getElementById('rationale').textContent = `Justificativa: ${data.rationale}`;
         document.getElementById('dica').textContent = `Dica: ${data.dica}`;
     } catch (error) {
         document.getElementById('resultado').textContent = 'Erro: ' + error.message;
