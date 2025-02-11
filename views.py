@@ -20,17 +20,3 @@ def classificar():
         "rationale": rationale,
         "dica": dica
     })
-#exs
-# pascal
-'''Qual a probabilidade de que no 25º lançamento de um 
-    dado ocorra a face 4 pela 5º vez?'''
-
-# bernoulli
-'''Tendo uma questão objetiva de 5 opcões, 
-    qual seria a probabilidade de eu acertar e a de eu errar a questão chutando?'''
-
-# geometrica
-'''No Callcenter de uma empresa distribuidora de telefonia,
-    apenas 35% das chamadas são relacionadas a reclamações sobre erros nas faturas emitidas
-    pela empresa. Qual a probabilidade da primeira reclamação sobre erro na fatura emitida da conta,
-    ocorrer até a 2º chamada?'''
