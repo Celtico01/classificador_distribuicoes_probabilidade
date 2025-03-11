@@ -22,7 +22,7 @@ if os.environ['OPENAI_API_KEY'] == 'sem chave':
     exit('Sem chave da OPENAI, coloque uma chave no seu .env e tente novamente!')
 
 # estrutur dspy
-gpt4 = OpenAI(os.getenv('GPT_MODEL'), model_type='chat', max_tokens=6000)
+gpt4 = dspy.LM(os.getenv('GPT_MODEL'), model_type='chat', max_tokens=6000, cache=False)
 #colbertv2_wiki17_abstracts = ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')
 # config dspy
 settings.configure(lm=gpt4,trace=[], cache=False, temperature=0.0)
@@ -97,7 +97,7 @@ class ModuloClassificador(dspy.Module):
 
 def formatedResult(pred):
     """returns : rationale, distribuição principal, dica"""
-    return pred.rationale, pred.distribuicao_principal, None
+    return None, pred.distribuicao_principal, None
 
 #pred = test(texto_questao=q5)
 #print(pred)
